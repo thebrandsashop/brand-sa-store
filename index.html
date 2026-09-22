@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Brand S/A — Premium Streetwear</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#050505;
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(5,5,5,.94);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid #202020;
+}
+
+.navbar{
+  max-width:1250px;
+  margin:auto;
+  padding:18px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+
+.logo span{
+  color:#1976ff;
+}
+
+nav{
+  display:flex;
+  gap:28px;
+}
+
+nav a{
+  color:#ddd;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:600;
+}
+
+nav a:hover{
+  color:#1976ff;
+}
+
+.cart{
+  border:1px solid #333;
+  padding:9px 13px;
+  border-radius:7px;
+  cursor:pointer;
+}
+
+.cart span{
+  color:#1976ff;
+  font-weight:bold;
+}
+
+/* HERO */
+.hero{
+  min-height:78vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:70px 20px;
+  background:
+  radial-gradient(circle at 50% 35%,#12386d 0%,#08152b 20%,#050505 55%);
+}
+
+.hero-content{
+  max-width:900px;
+}
+
+.small-title{
+  color:#1976ff;
+  font-size:13px;
+  font-weight:bold;
+  letter-spacing:4px;
+  margin-bottom:22px;
+}
+
+.hero h1{
+  font-size:clamp(55px,12vw,125px);
+  line-height:.9;
+  letter-spacing:-6px;
+  font-weight:900;
+}
+
+.hero h1 span{
+  color:#1976ff;
+}
+
+.hero p{
+  max-width:580px;
+  margin:28px auto;
+  color:#aaa;
+  line-height:1.7;
+  font-size:16px;
+}
+
+.btn{
+  display:inline-block;
+  background:#1976ff;
+  color:#fff;
+  padding:15px 32px;
+  border-radius:6px;
+  text-decoration:none;
+  font-size:14px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.btn:hover{
+  background:#fff;
+  color:#050505;
+}
+
+/* SECTION */
+.section{
+  max-width:1250px;
+  margin:auto;
+  padding:85px 25px;
+}
+
+.section-heading{
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  margin-bottom:35px;
+}
+
+.section-heading h2{
+  font-size:38px;
+}
+
+.section-heading p{
+  color:#777;
+  font-size:14px;
+}
+
+.blue-line{
+  width:55px;
+  height:3px;
+  background:#1976ff;
+  margin-top:14px;
+}
+
+/* CATEGORY */
+.categories{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:35px;
+}
+
+.category{
+  background:#101010;
+  border:1px solid #292929;
+  color:#aaa;
+  padding:11px 18px;
+  border-radius:30px;
+  cursor:pointer;
+  font-size:13px;
+}
+
+.category:hover,
+.category.active{
+  background:#1976ff;
+  color:white;
+  border-color:#1976ff;
+}
+
+/* PRODUCTS */
+.products{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+}
+
+.product{
+  background:#0d0d0d;
+  border:1px solid #222;
+  border-radius:12px;
+  overflow:hidden;
+  transition:.25s;
+}
+
+.product:hover{
+  transform:translateY(-6px);
+  border-color:#1976ff;
+}
+
+.product-image{
+  height:350px;
+  background:
+  linear-gradient(135deg,#151515,#071a34);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+.product-image span{
+  color:#555;
+  font-size:14px;
+  letter-spacing:2px;
+}
+
+.badge{
+  position:absolute;
+  top:14px;
+  left:14px;
+  background:#1976ff;
+  padding:6px 9px;
+  border-radius:4px;
+  font-size:10px;
+  font-weight:bold;
+}
+
+.product-info{
+  padding:18px;
+}
+
+.product-info h3{
+  font-size:16px;
+  margin-bottom:8px;
+}
+
+.product-info p{
+  color:#777;
+  font-size:12px;
+  margin-bottom:12px;
+}
+
+.price{
+  color:#1976ff;
+  font-size:18px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.size-select{
+  width:100%;
+  padding:11px;
+  background:#151515;
+  border:1px solid #292929;
+  color:white;
+  border-radius:5px;
+  margin-bottom:10px;
+}
+
+.add-cart{
+  width:100%;
+  padding:12px;
+  background:white;
+  border:0;
+  border-radius:5px;
+  color:#050505;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.add-cart:hover{
+  background:#1976ff;
+  color:white;
+}
+
+/* COLLECTION BANNER */
+.collection{
+  max-width:1250px;
+  margin:0 auto 80px;
+  padding:0 25px;
+}
+
+.collection-box{
+  min-height:280px;
+  border:1px solid #222;
+  border-radius:15px;
+  padding:45px;
+  display:flex;
+  align-items:center;
+  background:
+  radial-gradient(circle at 80% 50%,#103a70,#090909 55%);
+}
+
+.collection-box h2{
+  font-size:42px;
+  max-width:550px;
+}
+
+.collection-box p{
+  color:#999;
+  margin:15px 0 25px;
+}
+
+/* ABOUT */
+.about{
+  background:#090909;
+  border-top:1px solid #181818;
+  border-bottom:1px solid #181818;
+}
+
+.about-inner{
+  max-width:850px;
+  margin:auto;
+  text-align:center;
+  padding:90px 25px;
+}
+
+.about-inner h2{
+  font-size:40px;
+}
+
+.about-inner p{
+  color:#999;
+  line-height:1.8;
+  margin-top:20px;
+}
+
+/* FOOTER */
+footer{
+  padding:45px 25px;
+  text-align:center;
+  color:#666;
+  font-size:13px;
+}
+
+footer strong{
+  color:white;
+}
+
+/* CART MESSAGE */
+.cart-message{
+  position:fixed;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:#1976ff;
+  color:white;
+  padding:14px 22px;
+  border-radius:7px;
+  font-size:14px;
+  z-index:2000;
+  transition:.3s;
+}
+
+.cart-message.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  nav{
+    gap:12px;
+  }
+
+  nav a{
+    font-size:12px;
+  }
+
+  .section-heading{
+    display:block;
+  }
+
+  .section-heading p{
+    margin-top:8px;
+  }
+}
+
+@media(max-width:600px){
+
+  .navbar{
+    padding:15px;
+  }
+
+  .logo{
+    font-size:19px;
+  }
+
+  nav{
+    display:none;
+  }
+
+  .hero{
+    min-height:70vh;
+  }
+
+  .hero h1{
+    letter-spacing:-3px;
+  }
+
+  .section{
+    padding:65px 15px;
+  }
+
+  .section-heading h2{
+    font-size:30px;
+  }
+
+  .products{
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
+
+  .product-image{
+    height:230px;
+  }
+
+  .product-info{
+    padding:12px;
+  }
+
+  .product-info h3{
+    font-size:13px;
+  }
+
+  .price{
+    font-size:16px;
+  }
+
+  .collection{
+    padding:0 15px;
+  }
+
+  .collection-box{
+    padding:30px 20px;
+  }
+
+  .collection-box h2{
+    font-size:30px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="navbar">
+
+    <div class="logo">
+      BRAND <span>S/A</span>
+    </div>
+
+    <nav>
+      <a href="#latest">Latest</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+    </nav>
+
+    <div class="cart">
+      🛒 <span id="cartCount">0</span>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+
+  <div class="hero-content">
+
+    <div class="small-title">
+      EST. 2026 • BRAND S/A
+    </div>
+
+    <h1>
+      BRAND <span>S/A</span>
+    </h1>
+
+    <p>
+      Premium streetwear made for those who don't follow
+      the crowd. Discover our latest collection.
+    </p>
+
+    <a href="#latest" class="btn">
+      EXPLORE COLLECTION
+    </a>
+
+  </div>
+
+</section>
+
+
+<!-- LATEST -->
+<section class="section" id="latest">
+
+  <div class="section-heading">
+    <div>
+      <h2>Latest Drops</h2>
+      <div class="blue-line"></div>
+    </div>
+
+    <p>New arrivals from Brand S/A</p>
+  </div>
+
+
+  <div class="products">
+
+    <div class="product">
+
+      <div class="product-image">
+        <div class="badge">NEW</div>
+        <span>PRODUCT IMAGE</span>
+      </div>
+
+      <div class="product-info">
+        <h3>Brand S/A Signature Tee</h3>
+        <p>Premium Cotton T-Shirt</p>
+
+        <div class="price">₹699</div>
+
+        <select class="size-select">
+          <option>Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+
+        <button class="add-cart" onclick="addCart()">
+          ADD TO CART
+        </button>
+      </div>
+
+    </div>
+
+
+    <div class="product">
+
+      <div class="product-image">
+        <div class="badge">NEW</div>
+        <span>PRODUCT IMAGE</span>
+      </div>
+
+      <div class="product-info">
+        <h3>Blue Signature Tee</h3>
+        <p>Premium Oversized Fit</p>
+
+        <div class="price">₹749</div>
+
+        <select class="size-select">
+          <option>Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+
+        <button class="add-cart" onclick="addCart()">
+          ADD TO CART
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- SHOP -->
+<section class="section" id="shop">
+
+  <div class="section-heading">
+
+    <div>
+      <h2>Shop</h2>
+      <div class="blue-line"></div>
+    </div>
+
+    <p>Find your style</p>
+
+  </div>
+
+
+  <!-- CATEGORY BUTTONS -->
+
+  <div class="categories">
+
+    <button class="category active" onclick="filterProducts('all',this)">
+      All Products
+    </button>
+
+    <button class="category" onclick="filterProducts('tshirt',this)">
+      T-Shirts
+    </button>
+
+    <button class="category" onclick="filterProducts('fullsleeve',this)">
+      Full Sleeves
+    </button>
+
+    <button class="category" onclick="filterProducts('hoodie',this)">
+      Hoodies
+    </button>
+
+  </div>
+
+
+  <div class="products" id="productGrid">
+
+
+    <!-- T-SHIRT -->
+
+    <div class="product" data-category="tshirt">
+
+      <div class="product-image">
+        <span>T-SHIRT</span>
+      </div>
+
+      <div class="product-info">
+
+        <h3>Essential Black Tee</h3>
+
+        <p>Classic Premium T-Shirt</p>
+
+        <div class="price">₹699</div>
+
+        <select class="size-select">
+          <option>Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+
+        <button class="add-cart" onclick="addCart()">
+          ADD TO CART
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- FULL SLEEVE -->
+
+    <div class="product" data-category="fullsleeve">
+
+      <div class="product-image">
+        <span>FULL SLEEVE</span>
+      </div>
+
+      <div class="product-info">
+
+        <h3>Essential Full Sleeve</h3>
+
+        <p>Premium Full Sleeve Tee</p>
+
+        <div class="price">₹899</div>
+
+        <select class="size-select">
+          <option>Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+
+        <button class="add-cart" onclick="addCart()">
+          ADD TO CART
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- HOODIE -->
+
+    <div class="product" data-category="hoodie">
+
+      <div class="product-image">
+        <span>HOODIE</span>
+      </div>
+
+      <div class="product-info">
+
+        <h3>Brand S/A Hoodie</h3>
+
+        <p>Premium Heavyweight Hoodie</p>
+
+        <div class="price">₹1,199</div>
+
+        <select class="size-select">
+          <option>Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+
+        <button class="add-cart" onclick="addCart()">
+          ADD TO CART
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- T-SHIRT -->
+
+    <div class="product" data-category="tshirt">
+
+      <div class="product-image">
+        <span>T-SHIRT</span>
+      </div>
+
+      <div class="product-info">
+
+        <h3>Blue Edition Tee</h3>
+
+        <p>Oversized Streetwear</p>
+
+        <div class="price">₹749</div>
+
+        <select class="size-select">
+          <option>Select Size</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+          <option>XXL</option>
+        </select>
+
+        <button class="add-cart" onclick="addCart()">
+          ADD TO CART
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- COLLECTION BANNER -->
+
+<section class="collection">
+
+  <div class="collection-box">
+
+    <div>
+
+      <div class="small-title">
+        BRAND S/A COLLECTION
+      </div>
+
+      <h2>
+        WEAR YOUR<br>
+        OWN STYLE.
+      </h2>
+
+      <p>
+        Clean designs. Premium feel. No unnecessary noise.
+      </p>
+
+      <a href="#shop" class="btn">
+        SHOP COLLECTION
+      </a>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ABOUT -->
+
+<section class="about" id="about">
+
+  <div class="about-inner">
+
+    <div class="small-title">
+      OUR STORY
+    </div>
+
+    <h2>About Brand S/A</h2>
+
+    <div class="blue-line"></div>
+
+    <p>
+      Brand S/A is a modern streetwear brand built around
+      premium looks, clean designs and individual style.
+      This is only the beginning.
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <strong>BRAND S/A</strong>
+
+  <br><br>
+
+  © 2026 Brand S/A. All rights reserved.
+
+</footer>
+
+
+<!-- CART MESSAGE -->
+
+<div class="cart-message" id="cartMessage">
+  Added to cart ✓
+</div>
+
+
+<script>
+
+let cartCount = 0;
+
+function addCart(){
+
+  cartCount++;
+
+  document.getElementById("cartCount").innerText = cartCount;
+
+  const message = document.getElementById("cartMessage");
+
+  message.classList.add("show");
+
+  setTimeout(function(){
+
+    message.classList.remove("show");
+
+  },1500);
+
+}
+
+
+function filterProducts(category,button){
+
+  const products =
+    document.querySelectorAll("#productGrid .product");
+
+  const buttons =
+    document.querySelectorAll(".category");
+
+  buttons.forEach(function(btn){
+
+    btn.classList.remove("active");
+
+  });
+
+  button.classList.add("active");
+
+
+  products.forEach(function(product){
+
+    if(category === "all"){
+
+      product.style.display = "block";
+
+    }
+
+    else if(product.dataset.category === category){
+
+      product.style.display = "block";
+
+    }
+
+    else{
+
+      product.style.display = "none";
+
+    }
+
+  });
+
+}
+
+</script>
+
+</body>
+  </html>
