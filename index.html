@@ -858,7 +858,7 @@ let cartCount = 0;
 function addCart(){
 
   cartCount++;
-
+document.getElementById("cartItems").innerText = "Product added to cart ✓";
   document.getElementById("cartCount").innerText = cartCount;
 
   const message = document.getElementById("cartMessage");
