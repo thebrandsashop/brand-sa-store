@@ -480,7 +480,7 @@ footer strong{
     </nav>
 
     <div class="cart">
-      🛒 <span id="cartCount">0</span>
+      🛒 Cart <span id="floatingCartCount">0</span>
     </div>
 
   </div>
@@ -858,6 +858,7 @@ let cartCount = 0;
 function addCart(){
 
   cartCount++;
+  document.getElementById("floatingCartCount").innerText = cartCount;
 document.getElementById("cartItems").innerText = "Product added to cart ✓";
   document.getElementById("cartCount").innerText = cartCount;
 
