@@ -3,938 +3,385 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Brand S/A — Premium Streetwear</title>
-
 <style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-}
-
-html{
-  scroll-behavior:smooth;
-}
-
-body{
-  font-family:Arial,Helvetica,sans-serif;
-  background:#050505;
-  color:#fff;
-}
-
-/* HEADER */
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(5,5,5,.94);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid #202020;
-}
-
-.navbar{
-  max-width:1250px;
-  margin:auto;
-  padding:18px 25px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.logo{
-  font-size:25px;
-  font-weight:900;
-  letter-spacing:2px;
-}
-
-.logo span{
-  color:#1976ff;
-}
-
-nav{
-  display:flex;
-  gap:28px;
-}
-
-nav a{
-  color:#ddd;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-}
-
-nav a:hover{
-  color:#1976ff;
-}
-
-.cart{
-  border:1px solid #333;
-  padding:9px 13px;
-  border-radius:7px;
-  cursor:pointer;
-}
-
-.cart span{
-  color:#1976ff;
-  font-weight:bold;
-}
-
-/* HERO */
-.hero{
-  min-height:78vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:70px 20px;
-  background:
-  radial-gradient(circle at 50% 35%,#12386d 0%,#08152b 20%,#050505 55%);
-}
-
-.hero-content{
-  max-width:900px;
-}
-
-.small-title{
-  color:#1976ff;
-  font-size:13px;
-  font-weight:bold;
-  letter-spacing:4px;
-  margin-bottom:22px;
-}
-
-.hero h1{
-  font-size:clamp(55px,12vw,125px);
-  line-height:.9;
-  letter-spacing:-6px;
-  font-weight:900;
-}
-
-.hero h1 span{
-  color:#1976ff;
-}
-
-.hero p{
-  max-width:580px;
-  margin:28px auto;
-  color:#aaa;
-  line-height:1.7;
-  font-size:16px;
-}
-
-.btn{
-  display:inline-block;
-  background:#1976ff;
-  color:#fff;
-  padding:15px 32px;
-  border-radius:6px;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:bold;
-  transition:.2s;
-}
-
-.btn:hover{
-  background:#fff;
-  color:#050505;
-}
-
-/* SECTION */
-.section{
-  max-width:1250px;
-  margin:auto;
-  padding:85px 25px;
-}
-
-.section-heading{
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-  margin-bottom:35px;
-}
-
-.section-heading h2{
-  font-size:38px;
-}
-
-.section-heading p{
-  color:#777;
-  font-size:14px;
-}
-
-.blue-line{
-  width:55px;
-  height:3px;
-  background:#1976ff;
-  margin-top:14px;
-}
-
-/* CATEGORY */
-.categories{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:35px;
-}
-
-.category{
-  background:#101010;
-  border:1px solid #292929;
-  color:#aaa;
-  padding:11px 18px;
-  border-radius:30px;
-  cursor:pointer;
-  font-size:13px;
-}
-
-.category:hover,
-.category.active{
-  background:#1976ff;
-  color:white;
-  border-color:#1976ff;
-}
-
-/* PRODUCTS */
-.products{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-}
-
-.product{
-  background:#0d0d0d;
-  border:1px solid #222;
-  border-radius:12px;
-  overflow:hidden;
-  transition:.25s;
-}
-
-.product:hover{
-  transform:translateY(-6px);
-  border-color:#1976ff;
-}
-
-.product-image{
-  height:350px;
-  background:
-  linear-gradient(135deg,#151515,#071a34);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-  .product-image span{
-  color:#555;
-  font-size:14px;
-  letter-spacing:2px;
-}
-
-.badge{
-  position:absolute;
-  top:14px;
-  left:14px;
-  background:#1976ff;
-  padding:6px 9px;
-  border-radius:4px;
-  font-size:10px;
-  font-weight:bold;
-}
-
-.product-info{
-  padding:18px;
-}
-
-.product-info h3{
-  font-size:16px;
-  margin-bottom:8px;
-}
-
-.product-info p{
-  color:#777;
-  font-size:12px;
-  margin-bottom:12px;
-}
-
-.price{
-  color:#1976ff;
-  font-size:18px;
-  font-weight:bold;
-  margin-bottom:15px;
-}
-
-.size-select{
-  width:100%;
-  padding:11px;
-  background:#151515;
-  border:1px solid #292929;
-  color:white;
-  border-radius:5px;
-  margin-bottom:10px;
-}
-
-.add-cart{
-  width:100%;
-  padding:12px;
-  background:white;
-  border:0;
-  border-radius:5px;
-  color:#050505;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-.add-cart:hover{
-  background:#1976ff;
-  color:white;
-}
-
-/* COLLECTION BANNER */
-.collection{
-  max-width:1250px;
-  margin:0 auto 80px;
-  padding:0 25px;
-}
-
-.collection-box{
-  min-height:280px;
-  border:1px solid #222;
-  border-radius:15px;
-  padding:45px;
-  display:flex;
-  align-items:center;
-  background:
-  radial-gradient(circle at 80% 50%,#103a70,#090909 55%);
-}
-
-.collection-box h2{
-  font-size:42px;
-  max-width:550px;
-}
-
-.collection-box p{
-  color:#999;
-  margin:15px 0 25px;
-}
-
-/* ABOUT */
-.about{
-  background:#090909;
-  border-top:1px solid #181818;
-  border-bottom:1px solid #181818;
-}
-
-.about-inner{
-  max-width:850px;
-  margin:auto;
-  text-align:center;
-  padding:90px 25px;
-}
-
-.about-inner h2{
-  font-size:40px;
-}
-
-.about-inner p{
-  color:#999;
-  line-height:1.8;
-  margin-top:20px;
-}
-
-/* FOOTER */
-footer{
-  padding:45px 25px;
-  text-align:center;
-  color:#666;
-  font-size:13px;
-}
-
-footer strong{
-  color:white;
-}
-
-/* CART MESSAGE */
-.cart-message{
-  position:fixed;
-  bottom:25px;
-  left:50%;
-  transform:translateX(-50%) translateY(100px);
-  background:#1976ff;
-  color:white;
-  padding:14px 22px;
-  border-radius:7px;
-  font-size:14px;
-  z-index:2000;
-  transition:.3s;
-}
-
-.cart-message.show{
-  transform:translateX(-50%) translateY(0);
-}
-
-/* MOBILE */
-@media(max-width:900px){
-
-  .products{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  nav{
-    gap:12px;
-  }
-
-  nav a{
-    font-size:12px;
-  }
-
-  .section-heading{
-    display:block;
-  }
-
-  .section-heading p{
-    margin-top:8px;
-  }
-}
-
-@media(max-width:600px){
-
-  .navbar{
-    padding:15px;
-  }
-
-  .logo{
-    font-size:19px;
-  }
-
-  nav{
-    display:none;
-  }
-
-  .hero{
-    min-height:70vh;
-  }
-
-  .hero h1{
-    letter-spacing:-3px;
-  }
-
-  .section{
-    padding:65px 15px;
-  }
-
-  .section-heading h2{
-    font-size:30px;
-  }
-
-  .products{
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-  }
-
-  .product-image{
-    height:230px;
-  }
-
-  .product-info{
-    padding:12px;
-  }
-
-  .product-info h3{
-    font-size:13px;
-  }
-
-  .price{
-    font-size:16px;
-  }
-
-  .collection{
-    padding:0 15px;
-  }
-
-  .collection-box{
-    padding:30px 20px;
-  }
-
-  .collection-box h2{
-    font-size:30px;
-  }
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:#050505;color:#fff}
+header{position:sticky;top:0;z-index:1000;background:rgba(5,5,5,.94);backdrop-filter:blur(14px);border-bottom:1px solid #202020}
+.navbar{max-width:1250px;margin:auto;padding:18px 25px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.logo{font-size:25px;font-weight:900;letter-spacing:2px;white-space:nowrap}
+.logo span{color:#1976ff}
+nav{display:flex;gap:28px}
+nav a{color:#ddd;text-decoration:none;font-size:14px;font-weight:600}
+nav a:hover{color:#1976ff}
+.cart{background:#050505;color:white;font-size:16px;border:1px solid #333;padding:9px 13px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.cart span{color:#1976ff;font-weight:bold}
+.hero{min-height:78vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:70px 20px;background:radial-gradient(circle at 50% 35%,#12386d 0%,#08152b 20%,#050505 55%)}
+.hero-content{max-width:900px}
+.small-title{color:#1976ff;font-size:13px;font-weight:bold;letter-spacing:4px;margin-bottom:22px}
+.hero h1{font-size:clamp(55px,12vw,125px);line-height:.9;letter-spacing:-6px;font-weight:900}
+.hero h1 span{color:#1976ff}
+.hero p{max-width:580px;margin:28px auto;color:#aaa;line-height:1.7;font-size:16px}
+.btn{display:inline-block;background:#1976ff;color:#fff;padding:15px 32px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:bold;transition:.2s;border:0;cursor:pointer}
+.btn:hover{background:#fff;color:#050505}
+.section{max-width:1250px;margin:auto;padding:85px 25px}
+.section-heading{display:flex;align-items:end;justify-content:space-between;margin-bottom:35px}
+.section-heading h2{font-size:38px}
+.section-heading p{color:#777;font-size:14px}
+.blue-line{width:55px;height:3px;background:#1976ff;margin-top:14px}
+.categories{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:35px}
+.category{background:#101010;border:1px solid #292929;color:#aaa;padding:11px 18px;border-radius:30px;cursor:pointer;font-size:13px}
+.category:hover,.category.active{background:#1976ff;color:white;border-color:#1976ff}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.product{background:#0d0d0d;border:1px solid #222;border-radius:12px;overflow:hidden;transition:.25s}
+.product:hover{transform:translateY(-4px);border-color:#1976ff}
+.product-image{height:350px;background:linear-gradient(135deg,#151515,#071a34);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.product-image img{width:100%;height:100%;object-fit:cover;display:block}
+.product-image span.placeholder{color:#555;font-size:14px;letter-spacing:2px}
+.badge{position:absolute;top:14px;left:14px;background:#1976ff;padding:6px 9px;border-radius:4px;font-size:10px;font-weight:bold;z-index:1}
+.product-info{padding:18px}
+.product-info h3{font-size:16px;margin-bottom:8px}
+.product-info p{color:#777;font-size:12px;margin-bottom:12px}
+.price{color:#1976ff;font-size:18px;font-weight:bold;margin-bottom:15px}
+.size-select{width:100%;padding:11px;background:#151515;border:1px solid #292929;color:white;border-radius:5px;margin-bottom:10px}
+.add-cart{width:100%;padding:12px;background:white;border:0;border-radius:5px;color:#050505;font-weight:bold;cursor:pointer}
+.add-cart:hover{background:#1976ff;color:white}
+.collection{max-width:1250px;margin:0 auto 80px;padding:0 25px}
+.collection-box{min-height:280px;border:1px solid #222;border-radius:15px;padding:45px;display:flex;align-items:center;background:radial-gradient(circle at 80% 50%,#103a70,#090909 55%)}
+.collection-box h2{font-size:42px;max-width:550px}
+.collection-box p{color:#999;margin:15px 0 25px}
+.about{background:#090909;border-top:1px solid #181818;border-bottom:1px solid #181818}
+.about-inner{max-width:850px;margin:auto;text-align:center;padding:90px 25px}
+.about-inner h2{font-size:40px}
+.about-inner p{color:#999;line-height:1.8;margin-top:20px}
+footer{padding:45px 25px;text-align:center;color:#666;font-size:13px}
+footer strong{color:white}
+.cart-message{position:fixed;bottom:25px;left:50%;transform:translateX(-50%) translateY(120px);background:#1976ff;color:white;padding:14px 22px;border-radius:7px;font-size:14px;z-index:2000;transition:.3s;max-width:90%;text-align:center}
+.cart-message.show{transform:translateX(-50%) translateY(0)}
+/* CART PANEL */
+.cart-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:3000}
+.cart-panel{position:fixed;top:0;right:0;width:min(420px,100%);height:100%;background:#0d0d0d;border-left:1px solid #292929;z-index:3001;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease}
+.cart-panel.open{transform:translateX(0)}
+.cart-head{display:flex;justify-content:space-between;align-items:center;padding:22px;border-bottom:1px solid #252525}
+.cart-head h2{font-size:23px}
+.close-cart{background:transparent;color:#fff;border:1px solid #444;border-radius:7px;padding:8px 12px;cursor:pointer}
+.cart-items{padding:18px;overflow-y:auto;flex:1}
+.empty-cart{color:#888;line-height:1.6;padding:18px 0}
+.cart-item{display:grid;grid-template-columns:1fr auto;gap:10px;padding:15px 0;border-bottom:1px solid #292929}
+.cart-item h3{font-size:15px;margin-bottom:6px}
+.cart-item p{font-size:13px;color:#aaa;margin-bottom:5px}
+.cart-item .item-price{color:#1976ff;font-weight:bold}
+.remove-item{background:transparent;color:#ff7373;border:1px solid #5a2828;border-radius:5px;padding:6px 8px;cursor:pointer;align-self:center}
+.cart-footer{padding:20px;border-top:1px solid #292929}
+.cart-total{display:flex;justify-content:space-between;font-size:18px;font-weight:bold;margin-bottom:16px}
+.cart-footer small{display:block;color:#888;line-height:1.5;margin-top:12px}
+.checkout-note{display:none;color:#8ab5ff;font-size:13px;line-height:1.5;margin-top:12px}
+.floating-cart{position:fixed;right:20px;bottom:20px;padding:14px 20px;background:#fff;color:#000;border:0;border-radius:30px;font-weight:bold;z-index:1500;cursor:pointer;box-shadow:0 4px 18px rgba(0,0,0,.35)}
+.floating-cart span{color:#1976ff}
+@media(max-width:900px){.products{grid-template-columns:repeat(2,minmax(0,1fr))}nav{gap:12px}nav a{font-size:12px}.section-heading{display:block}.section-heading p{margin-top:8px}}
+@media(max-width:600px){.navbar{padding:15px}.logo{font-size:19px}nav{display:none}.hero{min-height:70vh}.hero h1{letter-spacing:-3px}.section{padding:65px 15px}.section-heading h2{font-size:30px}.products{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.product-image{height:230px}.product-info{padding:12px}.product-info h3{font-size:13px}.price{font-size:16px}.collection{padding:0 15px}.collection-box{padding:30px 20px}.collection-box h2{font-size:30px}.floating-cart{right:12px;bottom:12px;padding:12px 16px}.cart-item h3{font-size:14px}}
 </style>
 </head>
-
 <body>
-
-<!-- HEADER -->
 <header>
   <div class="navbar">
-
-    <div class="logo">
-      BRAND <span>S/A</span>
-    </div>
-
+    <div class="logo">BRAND <span>S/A</span></div>
     <nav>
       <a href="#latest">Latest</a>
       <a href="#shop">Shop</a>
       <a href="#about">About</a>
     </nav>
-
-    <button class="cart" onclick="openCart()" style="background:#050505;color:white;font-size:16px;">
-  🛒 Cart <span id="cartCount">0</span>
-    </button>
-
+    <button class="cart" type="button" onclick="openCart()">🛒 Cart <span id="cartCount">0</span></button>
   </div>
 </header>
 
-
-<!-- HERO -->
 <section class="hero">
-
   <div class="hero-content">
-
-    <div class="small-title">
-      EST. 2026 • BRAND S/A
-    </div>
-
-    <h1>
-      BRAND <span>S/A</span>
-    </h1>
-
-    <p>
-      Premium streetwear made for those who don't follow
-      the crowd. Discover our latest collection.
-    </p>
-
-    <a href="#latest" class="btn">
-      EXPLORE COLLECTION
-    </a>
-
+    <div class="small-title">EST. 2026 • BRAND S/A</div>
+    <h1>BRAND <span>S/A</span></h1>
+    <p>Premium streetwear made for those who don't follow the crowd. Discover our latest collection.</p>
+    <a href="#latest" class="btn">EXPLORE COLLECTION</a>
   </div>
-
 </section>
 
-
-<!-- LATEST -->
 <section class="section" id="latest">
-
   <div class="section-heading">
-    <div>
-      <h2>Latest Drops</h2>
-      <div class="blue-line"></div>
-    </div>
-
+    <div><h2>Latest Drops</h2><div class="blue-line"></div></div>
     <p>New arrivals from Brand S/A</p>
   </div>
-
-
   <div class="products">
-
     <div class="product">
-
       <div class="product-image">
         <div class="badge">NEW</div>
-        <img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/file_00000000eaa88230a345d5ad7dc7624e.png" alt="Brand S/A T-Shirt" style="width:100%;height:100%;object-fit:cover;">
+        <img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/file_00000000eaa88230a345d5ad7dc7624e.png" alt="Brand S/A Signature Tee">
       </div>
-
       <div class="product-info">
-        <h3>Brand S/A Signature Tee</h3>
-        <p>Premium Cotton T-Shirt</p>
-
-        <div class="price">₹699</div>
-
-        <select class="size-select">
-          <option>Select Size</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
+        <h3>Brand S/A Signature Tee</h3><p>Premium Cotton T-Shirt</p><div class="price">₹699</div>
+        <select class="size-select" aria-label="Select size for Brand S/A Signature Tee">
+          <option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
         </select>
-
-        <button class="add-cart" onclick="addCart()">
-          ADD TO CART
-        </button>
+        <button class="add-cart" type="button" onclick="addCart(this)">ADD TO CART</button>
       </div>
-
     </div>
-
-
     <div class="product">
-
-      <div class="product-image">
-        <div class="badge">NEW</div>
-        <span>PRODUCT IMAGE</span>
-      </div>
-
+      <div class="product-image"><div class="badge">NEW</div><span class="placeholder">PRODUCT IMAGE</span></div>
       <div class="product-info">
-        <h3>Blue Signature Tee</h3>
-        <p>Premium Oversized Fit</p>
-
-        <div class="price">₹749</div>
-
-        <select class="size-select">
-          <option>Select Size</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
+        <h3>Blue Signature Tee</h3><p>Premium Oversized Fit</p><div class="price">₹749</div>
+        <select class="size-select" aria-label="Select size for Blue Signature Tee">
+          <option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
         </select>
-
-        <button class="add-cart" onclick="addCart()">
-          ADD TO CART
-        </button>
+        <button class="add-cart" type="button" onclick="addCart(this)">ADD TO CART</button>
       </div>
-
     </div>
-
   </div>
-
 </section>
 
-
-<!-- SHOP -->
 <section class="section" id="shop">
-
   <div class="section-heading">
-
-    <div>
-      <h2>Shop</h2>
-      <div class="blue-line"></div>
-    </div>
-
-    <p>Find your style</p>
-
+    <div><h2>Shop</h2><div class="blue-line"></div></div><p>Find your style</p>
   </div>
-
-
-  <!-- CATEGORY BUTTONS -->
-
   <div class="categories">
-
-    <button class="category active" onclick="filterProducts('all',this)">
-      All Products
-    </button>
-
-    <button class="category" onclick="filterProducts('tshirt',this)">
-      T-Shirts
-    </button>
-
-    <button class="category" onclick="filterProducts('fullsleeve',this)">
-      Full Sleeves
-    </button>
-
-    <button class="category" onclick="filterProducts('hoodie',this)">
-      Hoodies
-    </button>
-
+    <button class="category active" type="button" onclick="filterProducts('all',this)">All Products</button>
+    <button class="category" type="button" onclick="filterProducts('tshirt',this)">T-Shirts</button>
+    <button class="category" type="button" onclick="filterProducts('fullsleeve',this)">Full Sleeves</button>
+    <button class="category" type="button" onclick="filterProducts('hoodie',this)">Hoodies</button>
   </div>
-
-
   <div class="products" id="productGrid">
-
-
-    <!-- T-SHIRT -->
-
     <div class="product" data-category="tshirt">
-
-      <div class="product-image">
-        <img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/20260926_192136.jpg" alt="Brand S/A Spider T-Shirt" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-
+      <div class="product-image"><img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/20260926_192136.jpg" alt="Brand S/A Spider T-Shirt"></div>
       <div class="product-info">
-
-        <h3>Essential Black Tee</h3>
-
-        <p>Classic Premium T-Shirt</p>
-
-        <div class="price">₹699</div>
-
-        <select class="size-select">
-          <option>Select Size</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
+        <h3>Essential Black Tee</h3><p>Classic Premium T-Shirt</p><div class="price">₹699</div>
+        <select class="size-select" aria-label="Select size for Essential Black Tee">
+          <option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
         </select>
-
-        <button class="add-cart" onclick="addCart()">
-          ADD TO CART
-        </button>
-
+        <button class="add-cart" type="button" onclick="addCart(this)">ADD TO CART</button>
       </div>
-
     </div>
-
-
-    <!-- FULL SLEEVE -->
-
     <div class="product" data-category="fullsleeve">
-
-      <div class="product-image">
-        <img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/20260927_223924.jpg" alt="Brand S/A Full Sleeve" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-
+      <div class="product-image"><img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/20260927_223924.jpg" alt="Brand S/A Full Sleeve"></div>
       <div class="product-info">
-
-        <h3>Essential Full Sleeve</h3>
-
-        <p>Premium Full Sleeve Tee</p>
-
-        <div class="price">₹899</div>
-
-        <select class="size-select">
-          <option>Select Size</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
+        <h3>Essential Full Sleeve</h3><p>Premium Full Sleeve Tee</p><div class="price">₹899</div>
+        <select class="size-select" aria-label="Select size for Essential Full Sleeve">
+          <option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
         </select>
-
-        <button class="add-cart" onclick="addCart()">
-          ADD TO CART
-        </button>
-
+        <button class="add-cart" type="button" onclick="addCart(this)">ADD TO CART</button>
       </div>
-
     </div>
-
-
-    <!-- HOODIE -->
-
     <div class="product" data-category="hoodie">
-
-      <div class="product-image">
-        <img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/20260927_224315.jpg" alt="Brand S/A Hoodie" style="width:100%;height:100%;object-fit:cover;">
-      </div>
-
+      <div class="product-image"><img src="https://raw.githubusercontent.com/thebrandsashop/brand-sa-store/main/20260927_224315.jpg" alt="Brand S/A Hoodie"></div>
       <div class="product-info">
-
-        <h3>Brand S/A Hoodie</h3>
-
-        <p>Premium Heavyweight Hoodie</p>
-
-        <div class="price">₹1,199</div>
-
-        <select class="size-select">
-          <option>Select Size</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
+        <h3>Brand S/A Hoodie</h3><p>Premium Heavyweight Hoodie</p><div class="price">₹1,199</div>
+        <select class="size-select" aria-label="Select size for Brand S/A Hoodie">
+          <option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
         </select>
-
-        <button class="add-cart" onclick="addCart()">
-          ADD TO CART
-        </button>
-
+        <button class="add-cart" type="button" onclick="addCart(this)">ADD TO CART</button>
       </div>
-
     </div>
-
-
-    <!-- T-SHIRT -->
-
     <div class="product" data-category="tshirt">
-
-      <div class="product-image">
-        <span>T-SHIRT</span>
-      </div>
-
+      <div class="product-image"><span class="placeholder">T-SHIRT</span></div>
       <div class="product-info">
-
-        <h3>Blue Edition Tee</h3>
-
-        <p>Oversized Streetwear</p>
-
-        <div class="price">₹749</div>
-
-        <select class="size-select">
-          <option>Select Size</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-          <option>XXL</option>
+        <h3>Blue Edition Tee</h3><p>Oversized Streetwear</p><div class="price">₹749</div>
+        <select class="size-select" aria-label="Select size for Blue Edition Tee">
+          <option value="">Select Size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
         </select>
-
-        <button class="add-cart" onclick="addCart()">
-          ADD TO CART
-        </button>
-
+        <button class="add-cart" type="button" onclick="addCart(this)">ADD TO CART</button>
       </div>
-
     </div>
-
   </div>
-
 </section>
-
-
-<!-- COLLECTION BANNER -->
 
 <section class="collection">
-
   <div class="collection-box">
-
     <div>
-
-      <div class="small-title">
-        BRAND S/A COLLECTION
-      </div>
-
-      <h2>
-        WEAR YOUR<br>
-        OWN STYLE.
-      </h2>
-
-      <p>
-        Clean designs. Premium feel. No unnecessary noise.
-      </p>
-
-      <a href="#shop" class="btn">
-        SHOP COLLECTION
-      </a>
-
+      <div class="small-title">BRAND S/A COLLECTION</div>
+      <h2>WEAR YOUR<br>OWN STYLE.</h2>
+      <p>Clean designs. Premium feel. No unnecessary noise.</p>
+      <a href="#shop" class="btn">SHOP COLLECTION</a>
     </div>
-
   </div>
-
 </section>
-
-
-<!-- ABOUT -->
 
 <section class="about" id="about">
-
   <div class="about-inner">
-
-    <div class="small-title">
-      OUR STORY
-    </div>
-
-    <h2>About Brand S/A</h2>
-
-    <div class="blue-line"></div>
-
-    <p>
-      Brand S/A is a modern streetwear brand built around
-      premium looks, clean designs and individual style.
-      This is only the beginning.
-    </p>
-
+    <div class="small-title">OUR STORY</div>
+    <h2>About Brand S/A</h2><div class="blue-line"></div>
+    <p>Brand S/A is a modern streetwear brand built around premium looks, clean designs and individual style. This is only the beginning.</p>
   </div>
-
 </section>
 
+<footer><strong>BRAND S/A</strong><br><br>© 2026 Brand S/A. All rights reserved.</footer>
 
-<!-- FOOTER -->
+<div class="cart-message" id="cartMessage" role="status" aria-live="polite">Added to cart ✓</div>
 
-<footer>
+<button class="floating-cart" type="button" onclick="openCart()">🛒 Cart <span id="floatingCartCount">0</span></button>
 
-  <strong>BRAND S/A</strong>
-
-  <br><br>
-
-  © 2026 Brand S/A. All rights reserved.
-
-</footer>
-
-
-<!-- CART MESSAGE -->
-
-<div class="cart-message" id="cartMessage">
-  Added to cart ✓
-</div>
-
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<aside class="cart-panel" id="cartPanel" aria-label="Shopping cart" aria-hidden="true">
+  <div class="cart-head"><h2>Your Cart</h2><button class="close-cart" type="button" onclick="closeCart()">Close ✕</button></div>
+  <div class="cart-items" id="cartItems"><p class="empty-cart">Your cart is empty.</p></div>
+  <div class="cart-footer">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <button class="btn" type="button" style="width:100%" onclick="showCheckoutNote()">Continue</button>
+    <div class="checkout-note" id="checkoutNote">Your cart is ready. Online payment/order placement is not connected yet. Please contact the store owner to complete your order.</div>
+    <small>Shipping charges, payment and order confirmation are not included yet.</small>
+  </div>
+</aside>
 
 <script>
+"use strict";
 
-let cartCount = 0;
+const cart = [];
 
-function addCart(){
+function formatINR(amount){
+  return "₹" + amount.toLocaleString("en-IN");
+}
 
-  cartCount++;
-  document.getElementById("cartCount").innerText = cartCount;
-document.querySelectorAll("#floatingCartCount").forEach(function(el){
-  el.innerText = cartCount;
-});
-
-  document.getElementById("cartCount").innerText = cartCount;
-
+function showMessage(text){
   const message = document.getElementById("cartMessage");
-
+  message.textContent = text;
   message.classList.add("show");
-
-  setTimeout(function(){
-
+  window.clearTimeout(showMessage.timer);
+  showMessage.timer = window.setTimeout(function(){
     message.classList.remove("show");
+  }, 1800);
+}
 
-  },1500);
+function updateCartCount(){
+  const count = cart.reduce(function(total, item){ return total + item.quantity; }, 0);
+  document.getElementById("cartCount").textContent = count;
+  document.getElementById("floatingCartCount").textContent = count;
+}
 
+function addCart(button){
+  const product = button.closest(".product");
+  if(!product) return;
+
+  const nameElement = product.querySelector(".product-info h3");
+  const priceElement = product.querySelector(".price");
+  const sizeSelect = product.querySelector(".size-select");
+  const name = nameElement ? nameElement.textContent.trim() : "Brand S/A Product";
+  const priceText = priceElement ? priceElement.textContent : "";
+  const price = Number(priceText.replace(/[^\d]/g, ""));
+  const size = sizeSelect ? sizeSelect.value : "";
+
+  if(!size){
+    showMessage("Please select a size first.");
+    if(sizeSelect) sizeSelect.focus();
+    return;
+  }
+  if(!Number.isFinite(price) || price <= 0){
+    showMessage("This product price is unavailable.");
+    return;
+  }
+
+  const existing = cart.find(function(item){ return item.name === name && item.size === size; });
+  if(existing){
+    existing.quantity += 1;
+  } else {
+    cart.push({name:name, size:size, price:price, quantity:1});
+  }
+  updateCartCount();
+  renderCart();
+  showMessage(name + " added to cart ✓");
+}
+
+function renderCart(){
+  const container = document.getElementById("cartItems");
+  const totalElement = document.getElementById("cartTotal");
+
+  if(cart.length === 0){
+    container.innerHTML = '<p class="empty-cart">Your cart is empty.</p>';
+    totalElement.textContent = formatINR(0);
+    document.getElementById("checkoutNote").style.display = "none";
+    updateCartCount();
+    return;
+  }
+
+  container.replaceChildren();
+  let total = 0;
+
+  cart.forEach(function(item, index){
+    total += item.price * item.quantity;
+
+    const row = document.createElement("div");
+    row.className = "cart-item";
+
+    const details = document.createElement("div");
+    const title = document.createElement("h3");
+    title.textContent = item.name;
+    const size = document.createElement("p");
+    size.textContent = "Size: " + item.size + " • Qty: " + item.quantity;
+    const price = document.createElement("p");
+    price.className = "item-price";
+    price.textContent = formatINR(item.price * item.quantity);
+    details.append(title, size, price);
+
+    const remove = document.createElement("button");
+    remove.className = "remove-item";
+    remove.type = "button";
+    remove.textContent = "Remove";
+    remove.setAttribute("aria-label", "Remove " + item.name + " from cart");
+    remove.addEventListener("click", function(){ removeCartItem(index); });
+
+    row.append(details, remove);
+    container.appendChild(row);
+  });
+
+  totalElement.textContent = formatINR(total);
+  document.getElementById("checkoutNote").style.display = "none";
+  updateCartCount();
+}
+
+function removeCartItem(index){
+  if(index < 0 || index >= cart.length) return;
+  cart.splice(index, 1);
+  renderCart();
+  showMessage("Product removed from cart.");
 }
 
 function openCart(){
-  document.getElementById("cartBox").style.display="block";
+  document.getElementById("cartOverlay").style.display = "block";
+  document.getElementById("cartPanel").classList.add("open");
+  document.getElementById("cartPanel").setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 }
 
 function closeCart(){
-  document.getElementById("cartBox").style.display="none";
+  document.getElementById("cartOverlay").style.display = "none";
+  document.getElementById("cartPanel").classList.remove("open");
+  document.getElementById("cartPanel").setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
 }
-function filterProducts(category,button){
 
-  const products =
-    document.querySelectorAll("#productGrid .product");
+function showCheckoutNote(){
+  const note = document.getElementById("checkoutNote");
+  if(cart.length === 0){
+    showMessage("Your cart is empty.");
+    return;
+  }
+  note.style.display = "block";
+}
 
-  const buttons =
-    document.querySelectorAll(".category");
-
-  buttons.forEach(function(btn){
-
+function filterProducts(category, button){
+  const products = document.querySelectorAll("#productGrid .product");
+  document.querySelectorAll(".category").forEach(function(btn){
     btn.classList.remove("active");
-
   });
-
   button.classList.add("active");
 
-
   products.forEach(function(product){
-
-    if(category === "all"){
-
-      product.style.display = "block";
-
-    }
-
-    else if(product.dataset.category === category){
-
-      product.style.display = "block";
-
-    }
-
-    else{
-
-      product.style.display = "none";
-
-    }
-
+    product.style.display = (category === "all" || product.dataset.category === category) ? "" : "none";
   });
-
 }
 
-</script>
-<!-- CART BUTTON -->
-<button onclick="openCart()" style="position:fixed;right:20px;bottom:20px;padding:14px 20px;background:#fff;color:#000;border:0;border-radius:30px;font-weight:bold;z-index:9999;">
-<span id="floatingCartCount">0</span>
-</button>
+document.addEventListener("keydown", function(event){
+  if(event.key === "Escape") closeCart();
+});
 
-<div id="cartBox" style="display:none;position:fixed;right:20px;bottom:80px;width:280px;background:#111;color:#fff;padding:20px;border-radius:15px;z-index:9998;">
-<h3>Your Cart</h3>
-<p id="cartItems">Your cart is empty.</p>
-<button onclick="closeCart()" style="padding:10px 15px;">Close</button>
-</div>
+updateCartCount();
+renderCart();
+</script>
 </body>
   </html>
+  
