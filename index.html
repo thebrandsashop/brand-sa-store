@@ -379,4 +379,22 @@ function showCheckoutNote(){
 
 function filterProducts(category, button){
   const products = document.querySelectorAll("#productGrid .product");
-  document.querySelectorAll(".category").forEach(functi
+  document.querySelectorAll(".category").forEach(function(btn){
+    btn.classList.remove("active");
+  });
+  button.classList.add("active");
+
+  products.forEach(function(product){
+    product.style.display = (category === "all" || product.dataset.category === category) ? "" : "none";
+  });
+}
+
+document.addEventListener("keydown", function(event){
+  if(event.key === "Escape") closeCart();
+});
+
+updateCartCount();
+renderCart();
+</script>
+</body>
+</html>
