@@ -68,7 +68,9 @@ footer strong{color:white}
 .close-cart{background:transparent;color:#fff;border:1px solid #444;border-radius:7px;padding:8px 12px;cursor:pointer}
 .cart-items{padding:18px;overflow-y:auto;flex:1}
 .empty-cart{color:#888;line-height:1.6;padding:18px 0}
-.cart-item{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:12px;align-items:center;padding:15px 0;border-bottom:1px solid #292929}\n.cart-item-image{width:76px;height:88px;object-fit:cover;border-radius:7px;background:#171717;border:1px solid #292929}\n.cart-item-image.placeholder-image{object-fit:contain;padding:8px;color:#888}
+.cart-item{display:grid;grid-template-columns:76px minmax(0,1fr) auto;gap:12px;align-items:center;padding:15px 0;border-bottom:1px solid #292929}
+.cart-item-image{width:76px;height:88px;object-fit:cover;border-radius:7px;background:#171717;border:1px solid #292929}
+.cart-item-image.placeholder-image{object-fit:contain;padding:8px;color:#888}
 .cart-item h3{font-size:15px;margin-bottom:6px}
 .cart-item p{font-size:13px;color:#aaa;margin-bottom:5px}
 .cart-item .item-price{color:#1976ff;font-weight:bold}
@@ -263,7 +265,9 @@ function addCart(button){
   const name = nameElement ? nameElement.textContent.trim() : "Brand S/A Product";
   const priceText = priceElement ? priceElement.textContent : "";
   const price = Number(priceText.replace(/[^\d]/g, ""));
-  const size = sizeSelect ? sizeSelect.value : "";\n  const productImage = product.querySelector(".product-image img");\n  const image = productImage ? productImage.src : "";
+  const size = sizeSelect ? sizeSelect.value : "";
+  const productImage = product.querySelector(".product-image img");
+  const image = productImage ? productImage.src : "";
 
   if(!size){
     showMessage("Please select a size first.");
@@ -306,6 +310,16 @@ function renderCart(){
 
     const row = document.createElement("div");
     row.className = "cart-item";
+
+    const image = document.createElement("img");
+    image.className = "cart-item-image";
+    image.alt = item.name;
+    if(item.image){
+      image.src = item.image;
+    } else {
+      image.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 90'%3E%3Crect width='80' height='90' fill='%23171717'/%3E%3Ctext x='40' y='48' fill='%23888888' font-size='10' text-anchor='middle'%3ENO IMAGE%3C/text%3E%3C/svg%3E";
+      image.classList.add("placeholder-image");
+    }
 
     const details = document.createElement("div");
     const title = document.createElement("h3");
@@ -365,23 +379,4 @@ function showCheckoutNote(){
 
 function filterProducts(category, button){
   const products = document.querySelectorAll("#productGrid .product");
-  document.querySelectorAll(".category").forEach(function(btn){
-    btn.classList.remove("active");
-  });
-  button.classList.add("active");
-
-  products.forEach(function(product){
-    product.style.display = (category === "all" || product.dataset.category === category) ? "" : "none";
-  });
-}
-
-document.addEventListener("keydown", function(event){
-  if(event.key === "Escape") closeCart();
-});
-
-updateCartCount();
-renderCart();
-</script>
-</body>
-                                                                                              </html>
-  
+  document.querySelectorAll(".category").forEach(functi
