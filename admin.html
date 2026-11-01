@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Brand S/A Admin</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#050505;color:#f5f5f5;font-family:Arial,sans-serif}header{padding:18px 5%;border-bottom:1px solid #252525;display:flex;justify-content:space-between;align-items:center}h1{font-size:22px;margin:0}h1 span{color:#1976ff}.wrap{max-width:1100px;margin:auto;padding:24px 16px}.card{background:#101010;border:1px solid #292929;border-radius:12px;padding:18px;margin:16px 0}.row{display:flex;gap:10px;flex-wrap:wrap}input,select,textarea{width:100%;padding:12px;border-radius:7px;border:1px solid #333;background:#080808;color:white;margin:6px 0 12px}label{font-size:13px;color:#bbb}.field{flex:1;min-width:210px}.btn{background:#1976ff;border:0;color:white;padding:11px 16px;border-radius:7px;font-weight:bold;cursor:pointer}.secondary{background:#222}.danger{background:#a72d36}.hidden{display:none}.muted{color:#999}.status{padding:10px 0;color:#75aaff}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:650px}th,td{text-align:left;padding:10px;border-bottom:1px solid #292929;font-size:13px}td input,td select{min-width:110px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+</style></head><body>
+<header><h1>BRAND <span>S/A</span> <small class="muted">ADMIN</small></h1><button id="logout" class="btn secondary hidden">Log out</button></header>
+<div class="wrap">
+<div id="loginCard" class="card"><h2>Admin login</h2><p class="muted">Use the admin email/password created in Supabase Authentication.</p><label>Email</label><input id="email" type="email" autocomplete="username"><label>Password</label><input id="password" type="password" autocomplete="current-password"><button id="loginBtn" class="btn">Log in</button><p id="loginMsg" class="status"></p></div>
+<div id="app" class="hidden">
+<div class="card"><div class="top"><div><h2>Dashboard</h2><p class="muted">Manage products and review COD order requests.</p></div><button id="refresh" class="btn">Refresh data</button></div><p id="status" class="status"></p></div>
+<div class="card"><h2>Add product</h2><form id="productForm"><div class="row"><div class="field"><label>Product name</label><input name="name" required maxlength="120"></div><div class="field"><label>Category</label><select name="category"><option>T-Shirts</option><option>Full Sleeves</option><option>Hoodies</option></select></div><div class="field"><label>Price (₹)</label><input name="price" type="number" min="0" required></div></div><label>Description</label><input name="description" maxlength="500"><label>Image URL</label><input name="image_url" type="url" placeholder="https://..." required><div class="row"><div class="field"><label>Stock</label><input name="stock" type="number" min="0" value="0" required></div><div class="field"><label>Sizes (comma-separated)</label><input name="sizes" value="S,M,L,XL,XXL"></div></div><label><input name="is_published" type="checkbox" style="width:auto"> Publish product</label><br><button class="btn" type="submit">Add product</button></form></div>
+<div class="card"><h2>Products</h2><div class="tablewrap"><table><thead><tr><th>Name</th><th>Price</th><th>Stock</th><th>Published</th><th>Action</th></tr></thead><tbody id="productsBody"></tbody></table></div></div>
+<div class="card"><h2>Orders</h2><div class="tablewrap"><table><thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Tracking</th><th>Save</th></tr></thead><tbody id="ordersBody"></tbody></table></div><p class="muted">Only share order details with authorized staff. Refunds and online payments need a payment provider integration.</p></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL="https://nbonawzknzxbkwastpij.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY="sb_publishable_gRxqxajNUcLk9SX6QFwubQ_b3LTiZoO";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
+const $=id=>document.getElementById(id);
+function msg(t){$("status").textContent=t}
+async function showApp(){
+ const {data:{session}}=await sb.auth.getSession();
+ if(session){$("loginCard").classList.add("hidden");$("app").classList.remove("hidden");$("logout").classList.remove("hidden");await loadAll();}
+ else{$("loginCard").classList.remove("hidden");$("app").classList.add("hidden");$("logout").classList.add("hidden");}
+}
+$("loginBtn").onclick=async()=>{ $("loginMsg").textContent="Signing in…"; const {error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value}); $("loginMsg").textContent=error?error.message:"Signed in."; if(!error) await showApp(); };
+$("logout").onclick=async()=>{await sb.auth.signOut();await showApp()};
+$("refresh").onclick=loadAll;
+async function loadAll(){
+ msg("Loading…");
+ const p=await sb.from("products").select("*").order("created_at",{ascending:false});
+ if(p.error){msg("Products error: "+p.error.message+" — check admin_users allowlist and RLS.");return;}
+ $("productsBody").innerHTML="";
+ p.data.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${esc(x.name)}</td><td>₹${x.price}</td><td>${x.stock}</td><td>${x.is_published?"Yes":"No"}</td><td><button class="btn secondary" data-edit="${x.id}">Edit</button> <button class="btn danger" data-delete="${x.id}">Delete</button></td>`;$("productsBody").appendChild(tr)});
+ const o=await sb.from("orders").select("id,order_code,customer_name,customer_phone,total,order_status,tracking_number,created_at").order("created_at",{ascending:false}).limit(100);
+ if(o.error){msg("Products loaded. Orders error: "+o.error.message);return;}
+ $("ordersBody").innerHTML="";
+ o.data.forEach(x=>{const tr=document.createElement("tr");tr.innerHTML=`<td>${esc(x.order_code)}</td><td>${esc(x.customer_name)}<br>${esc(x.customer_phone)}</td><td>₹${x.total}</td><td><select data-status="${x.id}">${["pending","confirmed","processing","shipped","delivered","cancelled","returned"].map(v=>`<option ${v===x.order_status?"selected":""}>${v}</option>`).join("")}</select></td><td><input data-track="${x.id}" value="${esc(x.tracking_number||"")}" maxlength="100"></td><td><button class="btn" data-saveorder="${x.id}">Save</button></td>`;$("ordersBody").appendChild(tr)});
+ msg(`Loaded ${p.data.length} products and ${o.data.length} orders.`);
+ document.querySelectorAll("[data-delete]").forEach(b=>b.onclick=()=>deleteProduct(b.dataset.delete));
+ document.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editProduct(p.data.find(x=>x.id===b.dataset.edit)));
+ document.querySelectorAll("[data-saveorder]").forEach(b=>b.onclick=()=>saveOrder(b.dataset.saveorder));
+}
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+$("productForm").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);const row={name:f.get("name"),category:f.get("category"),price:Number(f.get("price")),description:f.get("description"),image_url:f.get("image_url"),stock:Number(f.get("stock")),sizes:String(f.get("sizes")).split(",").map(s=>s.trim()).filter(Boolean),is_published:f.get("is_published")==="on"};const {error}=await sb.from("products").insert(row);if(error){msg(error.message);return;}e.target.reset();msg("Product added.");await loadAll()};
+async function deleteProduct(id){if(!confirm("Delete this product?"))return;const {error}=await sb.from("products").delete().eq("id",id);msg(error?error.message:"Product deleted.");await loadAll()}
+async function editProduct(p){const name=prompt("Product name",p.name);if(name===null)return;const price=prompt("Price in rupees",p.price);if(price===null)return;const stock=prompt("Stock quantity",p.stock);if(stock===null)return;const published=confirm("Publish this product? OK = published, Cancel = hidden");const {error}=await sb.from("products").update({name:name.trim(),price:Number(price),stock:Number(stock),is_published:published,updated_at:new Date().toISOString()}).eq("id",p.id);msg(error?error.message:"Product updated.");await loadAll()}
+async function saveOrder(id){const status=document.querySelector(`[data-status="${id}"]`).value;const tracking=document.querySelector(`[data-track="${id}"]`).value.trim();const {error}=await sb.from("orders").update({order_status:status,tracking_number:tracking,updated_at:new Date().toISOString()}).eq("id",id);msg(error?error.message:"Order updated.");}
+showApp();
+</script></body></html>
