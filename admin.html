@@ -18,6 +18,7 @@ input,select,textarea{width:100%;padding:12px;border-radius:7px;border:1px solid
 label{font-size:13px;color:#bbb}
 .field{flex:1;min-width:210px}
 .btn{background:#1976ff;border:0;color:white;padding:11px 16px;border-radius:7px;font-weight:bold;cursor:pointer}
+.btn:disabled{opacity:.5}
 .secondary{background:#222}
 .danger{background:#a72d36}
 .hidden{display:none}
@@ -65,7 +66,6 @@ td input,td select{min-width:110px}
 
 <div class="card">
 <h2>Add product</h2>
-
 <form id="productForm">
 
 <div class="row">
@@ -101,13 +101,7 @@ td input,td select{min-width:110px}
 <input name="description" maxlength="500">
 
 <label>Upload Product Image</label>
-<input
-name="image_file"
-type="file"
-accept="image/png,image/jpeg,image/webp"
-required
->
-
+<input name="image_file" type="file" accept="image/png,image/jpeg,image/webp" required>
 <p class="muted">JPG, PNG or WEBP. Maximum 20 MB.</p>
 
 <div class="row">
@@ -115,7 +109,6 @@ required
 <label>Stock</label>
 <input name="stock" type="number" min="0" value="0" required>
 </div>
-
 <div class="field">
 <label>Sizes (comma-separated)</label>
 <input name="sizes" value="S,M,L,XL,XXL">
@@ -126,25 +119,19 @@ required
 <input name="is_published" type="checkbox" style="width:auto">
 Publish product
 </label>
-
 <br><br>
 <button id="addProductBtn" class="btn" type="submit">Upload & Add Product</button>
-
 </form>
 </div>
+
+<div id="editProductBox" class="card hidden"></div>
 
 <div class="card">
 <h2>Products</h2>
 <div class="tablewrap">
 <table>
 <thead>
-<tr>
-<th>Name</th>
-<th>Price</th>
-<th>Stock</th>
-<th>Published</th>
-<th>Action</th>
-</tr>
+<tr><th>Name</th><th>Price</th><th>Stock</th><th>Published</th><th>Action</th></tr>
 </thead>
 <tbody id="productsBody"></tbody>
 </table>
@@ -156,14 +143,7 @@ Publish product
 <div class="tablewrap">
 <table>
 <thead>
-<tr>
-<th>Order</th>
-<th>Customer</th>
-<th>Total</th>
-<th>Status</th>
-<th>Tracking</th>
-<th>Save</th>
-</tr>
+<tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Tracking</th><th>Save</th></tr>
 </thead>
 <tbody id="ordersBody"></tbody>
 </table>
@@ -175,37 +155,25 @@ Publish product
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 "use strict";
 
 const SUPABASE_URL="https://cwuwthltwujemvaxxmpf.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_Ne0yFBg5a-SDT58bJvAq_Q_ZRTPCQeZ";
 
-const sb=window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
-
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 const $=id=>document.getElementById(id);
 
-function msg(t){
-  $("status").textContent=t;
-}
+function msg(t){$("status").textContent=t}
 
 function esc(s){
   return String(s??"").replace(/[&<>"']/g,c=>({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#39;"
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
   }[c]));
 }
 
 async function showApp(){
   const {data:{session}}=await sb.auth.getSession();
-
   if(session){
     $("loginCard").classList.add("hidden");
     $("app").classList.remove("hidden");
@@ -220,15 +188,12 @@ async function showApp(){
 
 $("loginBtn").onclick=async()=>{
   $("loginMsg").textContent="Signing in…";
-
   const {error}=await sb.auth.signInWithPassword({
     email:$("email").value.trim(),
     password:$("password").value
   });
-
   $("loginMsg").textContent=error?error.message:"Signed in.";
-
-  if(!error) await showApp();
+  if(!error)await showApp();
 };
 
 $("logout").onclick=async()=>{
@@ -241,9 +206,7 @@ $("refresh").onclick=loadAll;
 async function loadAll(){
   msg("Loading…");
 
-  const p=await sb.from("products")
-    .select("*")
-    .order("created_at",{ascending:false});
+  const p=await sb.from("products").select("*").order("created_at",{ascending:false});
 
   if(p.error){
     msg("Products error: "+p.error.message);
@@ -254,7 +217,6 @@ async function loadAll(){
 
   p.data.forEach(x=>{
     const tr=document.createElement("tr");
-
     tr.innerHTML=`
       <td>${esc(x.name)}</td>
       <td>₹${esc(x.price)}</td>
@@ -263,16 +225,13 @@ async function loadAll(){
       <td>
         <button class="btn secondary" data-edit="${esc(x.id)}">Edit</button>
         <button class="btn danger" data-delete="${esc(x.id)}">Delete</button>
-      </td>
-    `;
-
+      </td>`;
     $("productsBody").appendChild(tr);
   });
 
   const o=await sb.from("orders")
     .select("id,order_code,customer_name,customer_phone,total,order_status,tracking_number,created_at")
-    .order("created_at",{ascending:false})
-    .limit(100);
+    .order("created_at",{ascending:false}).limit(100);
 
   if(o.error){
     msg("Products loaded. Orders error: "+o.error.message);
@@ -283,26 +242,17 @@ async function loadAll(){
 
   o.data.forEach(x=>{
     const tr=document.createElement("tr");
-
     tr.innerHTML=`
       <td>${esc(x.order_code)}</td>
       <td>${esc(x.customer_name)}<br>${esc(x.customer_phone)}</td>
       <td>₹${esc(x.total)}</td>
-      <td>
-        <select data-status="${esc(x.id)}">
-          ${["pending","confirmed","processing","shipped","delivered","cancelled","returned"].map(v=>
-            `<option ${v===x.order_status?"selected":""}>${v}</option>`
-          ).join("")}
-        </select>
-      </td>
-      <td>
-        <input data-track="${esc(x.id)}" value="${esc(x.tracking_number||"")}" maxlength="100">
-      </td>
-      <td>
-        <button class="btn" data-saveorder="${esc(x.id)}">Save</button>
-      </td>
-    `;
-
+      <td><select data-status="${esc(x.id)}">
+        ${["pending","confirmed","processing","shipped","delivered","cancelled","returned"].map(v=>
+          `<option ${v===x.order_status?"selected":""}>${v}</option>`
+        ).join("")}
+      </select></td>
+      <td><input data-track="${esc(x.id)}" value="${esc(x.tracking_number||"")}" maxlength="100"></td>
+      <td><button class="btn" data-saveorder="${esc(x.id)}">Save</button></td>`;
     $("ordersBody").appendChild(tr);
   });
 
@@ -313,7 +263,7 @@ async function loadAll(){
   });
 
   document.querySelectorAll("[data-edit]").forEach(b=>{
-    b.onclick=()=>editProduct(p.data.find(x=>x.id===b.dataset.edit));
+    b.onclick=()=>editProduct(p.data.find(x=>String(x.id)===b.dataset.edit));
   });
 
   document.querySelectorAll("[data-saveorder]").forEach(b=>{
@@ -323,7 +273,6 @@ async function loadAll(){
 
 $("productForm").onsubmit=async e=>{
   e.preventDefault();
-
   const button=$("addProductBtn");
   button.disabled=true;
   button.textContent="Uploading image…";
@@ -333,41 +282,22 @@ $("productForm").onsubmit=async e=>{
     const f=new FormData(e.target);
     const file=f.get("image_file");
 
-    if(!file || !file.size){
-      throw new Error("Please select a product image.");
-    }
+    if(!file||!file.size)throw new Error("Please select a product image.");
+    if(file.size>20*1024*1024)throw new Error("Image must be smaller than 20 MB.");
 
-    if(file.size>20*1024*1024){
-      throw new Error("Image must be smaller than 20 MB.");
-    }
+    const allowed=["image/jpeg","image/png","image/webp"];
+    if(!allowed.includes(file.type))throw new Error("Please select JPG, PNG or WEBP.");
 
-    const allowedTypes=["image/jpeg","image/png","image/webp"];
+    const ext={"image/jpeg":"jpg","image/png":"png","image/webp":"webp"}[file.type];
+    const imagePath="products/"+crypto.randomUUID()+"."+ext;
 
-    if(!allowedTypes.includes(file.type)){
-      throw new Error("Please select JPG, PNG or WEBP image.");
-    }
+    const {error:uploadError}=await sb.storage.from("product-images").upload(imagePath,file,{
+      cacheControl:"3600",upsert:false,contentType:file.type
+    });
 
-    const extension={
-      "image/jpeg":"jpg",
-      "image/png":"png",
-      "image/webp":"webp"
-    }[file.type];
+    if(uploadError)throw uploadError;
 
-    const imagePath="products/"+crypto.randomUUID()+"."+extension;
-
-    const {error:uploadError}=await sb.storage
-      .from("product-images")
-      .upload(imagePath,file,{
-        cacheControl:"3600",
-        upsert:false,
-        contentType:file.type
-      });
-
-    if(uploadError) throw uploadError;
-
-    const {data:imageData}=sb.storage
-      .from("product-images")
-      .getPublicUrl(imagePath);
+    const {data:imageData}=sb.storage.from("product-images").getPublicUrl(imagePath);
 
     const row={
       name:f.get("name").trim(),
@@ -376,18 +306,13 @@ $("productForm").onsubmit=async e=>{
       description:f.get("description"),
       image_url:imageData.publicUrl,
       stock:Number(f.get("stock")),
-      sizes:String(f.get("sizes"))
-        .split(",")
-        .map(s=>s.trim())
-        .filter(Boolean),
+      sizes:String(f.get("sizes")).split(",").map(s=>s.trim()).filter(Boolean),
       is_published:f.get("is_published")==="on"
     };
 
     button.textContent="Saving product…";
-
     const {error:insertError}=await sb.from("products").insert(row);
-
-    if(insertError) throw insertError;
+    if(insertError)throw insertError;
 
     e.target.reset();
     e.target.elements.category.value="T-Shirts";
@@ -408,9 +333,7 @@ $("productForm").onsubmit=async e=>{
 
 async function deleteProduct(id){
   if(!confirm("Delete this product?"))return;
-
   const {error}=await sb.from("products").delete().eq("id",id);
-
   msg(error?error.message:"Product deleted.");
   await loadAll();
 }
@@ -418,42 +341,104 @@ async function deleteProduct(id){
 async function editProduct(p){
   if(!p)return;
 
-  const name=prompt("Product name",p.name);
-  if(name===null)return;
+  const box=$("editProductBox");
+  box.classList.remove("hidden");
+  box.innerHTML=`
+    <h2>Edit Product</h2>
 
-  const price=prompt("Price in rupees",p.price);
-  if(price===null)return;
+    <label>Product Name</label>
+    <input id="editName" maxlength="120">
 
-  const stock=prompt("Stock quantity",p.stock);
-  if(stock===null)return;
+    <label>Category</label>
+    <input id="editCategory" list="categoryList">
 
-  const published=confirm("Publish this product? OK = published, Cancel = hidden");
+    <label>Price (₹)</label>
+    <input id="editPrice" type="number" min="0" step="0.01">
 
-  const {error}=await sb.from("products")
-    .update({
-      name:name.trim(),
-      price:Number(price),
-      stock:Number(stock),
-      is_published:published,
-      updated_at:new Date().toISOString()
-    })
-    .eq("id",p.id);
+    <label>Stock</label>
+    <input id="editStock" type="number" min="0">
 
-  msg(error?error.message:"Product updated.");
-  await loadAll();
+    <label>Description</label>
+    <input id="editDescription" maxlength="500">
+
+    <label>Sizes (comma-separated)</label>
+    <input id="editSizes">
+
+    <label>
+      <input id="editPublished" type="checkbox" style="width:auto">
+      Publish Product
+    </label>
+
+    <br><br>
+    <button class="btn" id="saveEdit">Save Changes</button>
+    <button class="btn secondary" id="cancelEdit">Cancel</button>
+    <p id="editMessage" class="status"></p>
+  `;
+
+  $("editName").value=p.name||"";
+  $("editCategory").value=p.category||"";
+  $("editPrice").value=p.price??0;
+  $("editStock").value=p.stock??0;
+  $("editDescription").value=p.description||"";
+  $("editSizes").value=Array.isArray(p.sizes)?p.sizes.join(","):"";
+  $("editPublished").checked=!!p.is_published;
+
+  box.scrollIntoView({behavior:"smooth",block:"start"});
+
+  $("cancelEdit").onclick=()=>{
+    box.classList.add("hidden");
+    box.innerHTML="";
+  };
+
+  $("saveEdit").onclick=async()=>{
+    const button=$("saveEdit");
+    const message=$("editMessage");
+
+    const name=$("editName").value.trim();
+    const category=$("editCategory").value.trim();
+    const price=Number($("editPrice").value);
+    const stock=Number($("editStock").value);
+
+    if(!name||!category||!Number.isFinite(price)||price<0||!Number.isInteger(stock)||stock<0){
+      message.textContent="Please enter valid product details.";
+      return;
+    }
+
+    button.disabled=true;
+    message.textContent="Saving changes…";
+
+    const {error}=await sb.from("products").update({
+      name,
+      category,
+      price,
+      stock,
+      description:$("editDescription").value,
+      sizes:$("editSizes").value.split(",").map(s=>s.trim()).filter(Boolean),
+      is_published:$("editPublished").checked
+    }).eq("id",p.id);
+
+    if(error){
+      message.textContent=error.message;
+      button.disabled=false;
+      return;
+    }
+
+    box.classList.add("hidden");
+    box.innerHTML="";
+    msg("Product updated successfully!");
+    await loadAll();
+  };
 }
 
 async function saveOrder(id){
   const status=document.querySelector(`[data-status="${id}"]`).value;
   const tracking=document.querySelector(`[data-track="${id}"]`).value.trim();
 
-  const {error}=await sb.from("orders")
-    .update({
-      order_status:status,
-      tracking_number:tracking,
-      updated_at:new Date().toISOString()
-    })
-    .eq("id",id);
+  const {error}=await sb.from("orders").update({
+    order_status:status,
+    tracking_number:tracking,
+    updated_at:new Date().toISOString()
+  }).eq("id",id);
 
   msg(error?error.message:"Order updated.");
 }
@@ -461,5 +446,5 @@ async function saveOrder(id){
 showApp();
 </script>
 </body>
-           </html>
-           
+  </html>
+  
