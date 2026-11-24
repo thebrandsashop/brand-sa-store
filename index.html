@@ -482,12 +482,110 @@ function filterProducts(category, button){
   });
 }
 
+async function loadStoreProducts(){
+  const container = document.getElementById("productGrid");
+
+  try {
+    const response = await fetch(
+      "https://cwuwthltwujemvaxxmpf.supabase.co/rest/v1/products?select=id,name,description,price,category,image_url,images,sizes,stock,is_published&is_published=eq.true&order=created_at.desc",
+      {
+        headers: {
+          "apikey": "sb_publishable_Ne0yFBg5a-SDT58bJvAq_Q_ZRTPCQeZ"
+        }
+      }
+    );
+
+    if(!response.ok) throw new Error("Products could not load");
+
+    const products = await response.json();
+
+    container.querySelectorAll('[data-source="supabase"]').forEach(function(card){
+      card.remove();
+    });
+
+    products.forEach(function(p){
+      const card = document.createElement("div");
+      card.className = "product";
+      card.dataset.source = "supabase";
+
+      const cat = String(p.category || "").toLowerCase();
+      card.dataset.category = cat.includes("hood") ? "hoodie" :
+        cat.includes("full") ? "fullsleeve" : "tshirt";
+
+      const imageUrl = p.image_url || (p.images && p.images[0]) || "";
+      const imageBox = document.createElement("div");
+      imageBox.className = "product-image";
+
+      if(imageUrl){
+        const img = document.createElement("img");
+        img.src = imageUrl;
+        img.alt = p.name || "Brand S/A Product";
+        imageBox.appendChild(img);
+      } else {
+        const placeholder = document.createElement("span");
+        placeholder.className = "placeholder";
+        placeholder.textContent = "PRODUCT IMAGE";
+        imageBox.appendChild(placeholder);
+      }
+
+      const info = document.createElement("div");
+      info.className = "product-info";
+
+      const name = document.createElement("h3");
+      name.textContent = p.name || "Brand S/A Product";
+
+      const description = document.createElement("p");
+      description.textContent = p.description || "";
+
+      const price = document.createElement("div");
+      price.className = "price";
+      price.textContent = formatINR(Number(p.price || 0));
+
+      const sizeSelect = document.createElement("select");
+      sizeSelect.className = "size-select";
+      sizeSelect.setAttribute("aria-label", "Select product size");
+
+      const firstOption = document.createElement("option");
+      firstOption.value = "";
+      firstOption.textContent = "Select Size";
+      sizeSelect.appendChild(firstOption);
+
+      const sizes = Array.isArray(p.sizes) && p.sizes.length
+        ? p.sizes : ["S","M","L","XL","XXL"];
+
+      sizes.forEach(function(size){
+        const option = document.createElement("option");
+        option.value = size;
+        option.textContent = size;
+        sizeSelect.appendChild(option);
+      });
+
+      const addButton = document.createElement("button");
+      addButton.className = "add-cart";
+      addButton.type = "button";
+      addButton.textContent = "ADD TO CART";
+      addButton.addEventListener("click", function(){
+        addCart(addButton);
+      });
+
+      info.append(name, description, price, sizeSelect, addButton);
+      card.append(imageBox, info);
+      container.appendChild(card);
+    });
+
+  } catch(error) {
+    console.error("Store products error:", error);
+    showMessage("Products could not load. Please refresh.");
+  }
+        }
+  
 document.addEventListener("keydown", function(event){
   if(event.key === "Escape"){ closeCart(); closeCheckout(); }
 });
 
 updateCartCount();
 renderCart();
+  loadStoreProducts();
 </script>
 </body>
 </html>
