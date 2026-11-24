@@ -495,8 +495,10 @@ async function loadStoreProducts(){
       }
     );
 
-    if(!response.ok) throw new Error("Products could not load");
-
+if(!response.ok) {
+  const errorText = await response.text();
+  throw new Error(errorText);
+}
     const products = await response.json();
 
     container.querySelectorAll('[data-source="supabase"]').forEach(function(card){
