@@ -29,6 +29,7 @@ table{border-collapse:collapse;width:100%;min-width:650px}
 th,td{text-align:left;padding:10px;border-bottom:1px solid #292929;font-size:13px}
 td input,td select{min-width:110px}
 .top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.preview{width:140px;height:140px;object-fit:cover;border-radius:10px;border:1px solid #333;background:#080808;margin:10px 0}
 </style>
 </head>
 <body>
@@ -343,6 +344,7 @@ async function editProduct(p){
 
   const box=$("editProductBox");
   box.classList.remove("hidden");
+
   box.innerHTML=`
     <h2>Edit Product</h2>
 
@@ -364,6 +366,18 @@ async function editProduct(p){
     <label>Sizes (comma-separated)</label>
     <input id="editSizes">
 
+    <label>Current Product Image</label>
+    <br>
+    <img id="editImagePreview"
+      class="preview"
+      src="${esc(p.image_url||"")}"
+      alt="Current product image"
+      style="${p.image_url?"":"display:none"}">
+
+    <label>Change Product Image</label>
+    <input id="editImageFile" type="file" accept="image/png,image/jpeg,image/webp">
+    <p class="muted">JPG, PNG or WEBP. Maximum 20 MB. Leave empty to keep the current image.</p>
+
     <label>
       <input id="editPublished" type="checkbox" style="width:auto">
       Publish Product
@@ -383,6 +397,33 @@ async function editProduct(p){
   $("editSizes").value=Array.isArray(p.sizes)?p.sizes.join(","):"";
   $("editPublished").checked=!!p.is_published;
 
+  const imageFile=$("editImageFile");
+  const preview=$("editImagePreview");
+
+  imageFile.onchange=()=>{
+    const file=imageFile.files[0];
+
+    if(!file)return;
+
+    const allowed=["image/jpeg","image/png","image/webp"];
+
+    if(!allowed.includes(file.type)){
+      $("editMessage").textContent="Only JPG, PNG and WEBP images are allowed.";
+      imageFile.value="";
+      return;
+    }
+
+    if(file.size>20*1024*1024){
+      $("editMessage").textContent="Image must be under 20 MB.";
+      imageFile.value="";
+      return;
+    }
+
+    preview.src=URL.createObjectURL(file);
+    preview.style.display="block";
+    $("editMessage").textContent="New image selected. Save Changes to upload it.";
+  };
+
   box.scrollIntoView({behavior:"smooth",block:"start"});
 
   $("cancelEdit").onclick=()=>{
@@ -398,35 +439,87 @@ async function editProduct(p){
     const category=$("editCategory").value.trim();
     const price=Number($("editPrice").value);
     const stock=Number($("editStock").value);
+    const file=imageFile.files[0];
 
-    if(!name||!category||!Number.isFinite(price)||price<0||!Number.isInteger(stock)||stock<0){
+    if(!name||!category||!Number.isFinite(price)||price<0||
+       !Number.isInteger(stock)||stock<0){
       message.textContent="Please enter valid product details.";
       return;
     }
 
-    button.disabled=true;
-    message.textContent="Saving changes…";
+    if(file){
+      const allowed=["image/jpeg","image/png","image/webp"];
 
-    const {error}=await sb.from("products").update({
-      name,
-      category,
-      price,
-      stock,
-      description:$("editDescription").value,
-      sizes:$("editSizes").value.split(",").map(s=>s.trim()).filter(Boolean),
-      is_published:$("editPublished").checked
-    }).eq("id",p.id);
+      if(!allowed.includes(file.type)){
+        message.textContent="Only JPG, PNG and WEBP images are allowed.";
+        return;
+      }
 
-    if(error){
-      message.textContent=error.message;
-      button.disabled=false;
-      return;
+      if(file.size>20*1024*1024){
+        message.textContent="Image must be under 20 MB.";
+        return;
+      }
     }
 
-    box.classList.add("hidden");
-    box.innerHTML="";
-    msg("Product updated successfully!");
-    await loadAll();
+    button.disabled=true;
+    message.textContent="Saving changes...";
+
+    try{
+      let imageUrl=p.image_url||null;
+
+      if(file){
+        message.textContent="Uploading new image...";
+
+        const extension={
+          "image/jpeg":"jpg",
+          "image/png":"png",
+          "image/webp":"webp"
+        }[file.type];
+
+        const filePath="products/"+crypto.randomUUID()+"."+extension;
+
+        const {error:uploadError}=await sb.storage
+          .from("product-images")
+          .upload(filePath,file,{
+            cacheControl:"3600",
+            upsert:false,
+            contentType:file.type
+          });
+
+        if(uploadError)throw uploadError;
+
+        const {data:imageData}=sb.storage
+          .from("product-images")
+          .getPublicUrl(filePath);
+
+        imageUrl=imageData.publicUrl;
+      }
+
+      message.textContent="Saving product details...";
+
+      const {error}=await sb.from("products").update({
+        name,
+        category,
+        price,
+        stock,
+        description:$("editDescription").value,
+        sizes:$("editSizes").value.split(",").map(s=>s.trim()).filter(Boolean),
+        is_published:$("editPublished").checked,
+        image_url:imageUrl
+      }).eq("id",p.id);
+
+      if(error)throw error;
+
+      box.classList.add("hidden");
+      box.innerHTML="";
+      msg("Product updated successfully!");
+      await loadAll();
+
+    }catch(error){
+      console.error(error);
+      message.textContent="Error: "+(error.message||"Something went wrong.");
+      button.disabled=false;
+    }
   };
 }
 
